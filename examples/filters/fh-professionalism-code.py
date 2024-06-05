@@ -78,7 +78,7 @@ class Pipeline:
 
         if toxicity["toxicity"] > 0.5:
             raise Exception("""⚠ Your prompt is a violation of the Fred Hutch standards of conduct: 'Treat others with respect, dignity and professionalism'
-                               Review the standard here: https://centernet.fredhutch.org/u/compliance-office/standards.html
+                               Review the standard here: https://centernet.fredhutch.org/u/compliance-office/standards.html 
                                Repeated violations of these standards will result in loosing access to this system, or other actions.""")
 
         return body
