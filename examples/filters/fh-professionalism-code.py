@@ -77,7 +77,7 @@ class Pipeline:
         print(toxicity)
 
         if toxicity["toxicity"] > 0.5:
-            raise Exception("""This message is likely a violation of clause 2 of the Fred Hutch stadards of conduct: 'Treat others with respect, dignity and professionalism'\n
-                               Review the stardard here: https://centernet.fredhutch.org/u/compliance-office/standards.html""")
+            raise Exception("""You prompt is a violation of the Fred Hutch stadards of conduct: 'Treat others with respect, dignity and professionalism'
+                               Review the stardard here: <a href="https://centernet.fredhutch.org/u/compliance-office/standards.html" target="_blank">Visit Standards Page</a>""")
 
         return body
