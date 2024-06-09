@@ -65,3 +65,13 @@ class Pipeline:
             raise Exception("""💉PHI Detected🏥""")
 
         return body
+
+
+    async def outlet(self, body: dict, user: dict) -> dict:
+        # This function is called after the OpenAI API response is completed. You can modify the messages after they are received from the OpenAI API.
+        print(f"outlet:{__name__}")
+
+        print(body)
+        print(user)
+
+        return body
