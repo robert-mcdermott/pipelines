@@ -57,24 +57,15 @@ class Pipeline:
 
         # Filter out toxic messages
         NER = []
+        TYPES = []
         results = self.model(user_message)
         for res in results:
-            if res['score'] > 0.9:
+            if res['score'] >= 0.8:
                 NER.append(res)
 
-        self.phi = "Clean"
-
         if len(NER) > 0:
-            #raise Exception("""⚠️ PHI Decteted 🏥""")
-            self.phi = "PHI detected"
-
-        return body
-
-    async def outlet(self, body: dict, user: dict) -> dict:
-        # This function is called after the OpenAI API response is completed. You can modify the messages after they are received from the OpenAI API.
-        print(f"outlet:{__name__}")
-        body = self.phi
-        print(body)
-        print(user)
+            raise Exception("""⚠️ PHI Decteted (>=80% prob): This system is not authorized to process ⚕️PII/PHI🏥.
+                               👉 If you have a use case with Generative AI and sensitive information seek guidance:
+                               🌐 https://centernet.fredhutch.org/u/data-science-lab/data-governance.html""")
 
         return body
