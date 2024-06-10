@@ -1,10 +1,10 @@
 """
-title: Fred Hutch Code of PHI Filter
-date: 2024-06-07
+title: Fred Hutch Code PHI
+date: 2024-06-05
 version: 1.0
 license: MIT
-description: A pipeline for stopping the use of PHI.
-requirements: requests
+description: A pipeline for filtering out PHI.
+requirements: 
 """
 
 from typing import List, Optional
@@ -12,6 +12,7 @@ from schemas import OpenAIChatMessage
 from pydantic import BaseModel
 from transformers import pipeline
 import os
+
 
 class Pipeline:
     class Valves(BaseModel):
@@ -58,19 +59,21 @@ class Pipeline:
         NER = []
         results = self.model(user_message)
         for res in results:
-            if res['score'] > 0.1:
+            if res['score'] > 0.9:
                 NER.append(res)
 
+        self.phi = "Clean"
+
         if len(NER) > 0:
-            raise Exception("""💉PHI Detected🏥""")
+            #raise Exception("""⚠️ PHI Decteted 🏥""")
+            self.phi = "PHI detected"
 
         return body
-
 
     async def outlet(self, body: dict, user: dict) -> dict:
         # This function is called after the OpenAI API response is completed. You can modify the messages after they are received from the OpenAI API.
         print(f"outlet:{__name__}")
-
+        body = self.phi
         print(body)
         print(user)
 
