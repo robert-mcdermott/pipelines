@@ -55,17 +55,20 @@ class Pipeline:
         print(body)
         user_message = body["messages"][-1]["content"]
 
-        # Filter out toxic messages
         NER = []
-        TYPES = []
+        entities = {}
         results = self.model(user_message)
         for res in results:
-            if res['score'] >= 0.8:
+            if res['score'] > 0.8:
+                entities[(res['entity'].split('-')[-1])] = 1  
                 NER.append(res)
+        elist = "\n".join(["\t%s" % ent for ent in entities])
 
         if len(NER) > 0:
             raise Exception("""⚠️ PHI Decteted (>=80% prob): This system is not authorized to process ⚕️PII/PHI🏥.
                                👉 If you have a use case with Generative AI and sensitive information seek guidance:
-                               🌐 https://centernet.fredhutch.org/u/data-science-lab/data-governance.html""")
+                               🌐 https://centernet.fredhutch.org/u/data-science-lab/data-governance.html)
+                                
+                                Detected Entities\n%s:""" % elist) 
 
         return body
