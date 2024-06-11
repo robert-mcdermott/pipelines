@@ -62,13 +62,12 @@ class Pipeline:
             if res['score'] > 0.8:
                 entities[(res['entity'].split('-')[-1])] = 1  
                 NER.append(res)
-        elist = "\n".join(["\t%s" % ent for ent in entities])
+
+        elist = "\n".join([" " * 4 + "📍%s" % ent for ent in entities])
 
         if len(NER) > 0:
-            raise Exception("""⚠️ PHI Decteted (>=80% prob): This system is not authorized to process ⚕️PII/PHI🏥.
+            raise Exception("""⚠️ PHI Decteted (>=80%%): This system is not authorized to process ⚕️PII/PHI🏥.
                                👉 If you have a use case with Generative AI and sensitive information seek guidance:
                                🌐 https://centernet.fredhutch.org/u/data-science-lab/data-governance.html)
-                                
-                                Detected Entities\n%s:""" % elist) 
-
+                               🔎 Detected Entities:\n%s""" % elist)
         return body
